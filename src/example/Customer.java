@@ -33,13 +33,10 @@ public class Customer {
     }
 
     private double getTotalCharge() {
-        double total = 0;
-        Enumeration rentals = _rentals.elements();
-        while (rentals.hasMoreElements()) {
-            Rental each = (Rental) rentals.nextElement();
-            total +=  each.getCharge();
-        }
-        return total;
+        Vector<Rental> rentals = _rentals;
+        return rentals.stream()
+              .mapToDouble(rental -> rental.getCharge())
+              .sum();
     }
     
     private int getTotalFrequentRenterPoints() {
