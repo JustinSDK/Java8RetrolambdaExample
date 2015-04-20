@@ -35,14 +35,14 @@ public class Customer {
     private double getTotalCharge() {
         Vector<Rental> rentals = _rentals;
         return rentals.stream()
-              .mapToDouble(rental -> rental.getCharge())
+              .mapToDouble(Rental::getCharge)
               .sum();
     }
     
     private int getTotalFrequentRenterPoints() {
         Vector<Rental> rentals = _rentals;
         return rentals.stream()
-                .mapToInt(rental -> rental.getFrequentRenterPoints())
+                .mapToInt(Rental::getFrequentRenterPoints)
                 .sum();
     }
 }
