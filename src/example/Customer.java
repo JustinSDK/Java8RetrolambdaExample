@@ -40,13 +40,9 @@ public class Customer {
     }
     
     private int getTotalFrequentRenterPoints() {
-        int frequentRenterPoints = 0;
-        Enumeration rentals = _rentals.elements();
-        while (rentals.hasMoreElements()) {
-            Rental each = (Rental) rentals.nextElement();
-            frequentRenterPoints += each.getFrequentRenterPoints();
-        }
-        return frequentRenterPoints;
+        Vector<Rental> rentals = _rentals;
+        return rentals.stream()
+                .mapToInt(rental -> rental.getFrequentRenterPoints())
+                .sum();
     }
-
 }
