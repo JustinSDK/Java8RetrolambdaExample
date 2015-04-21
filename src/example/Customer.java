@@ -19,17 +19,13 @@ public class Customer {
     }
 
     public String statement() {
-        Enumeration rentals = _rentals.elements();
-        String result = "Rental Record for " + getName() + "\n";
-        while (rentals.hasMoreElements()) {
-            Rental each = (Rental) rentals.nextElement();
-            //show figures for this rental
-            result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n";
-        }
-        //add footer lines
-        result += "Amount owed is " + String.valueOf(getTotalCharge()) + "\n";
-        result += "You earned " + String.valueOf(getTotalFrequentRenterPoints()) + " frequent renter points";
-        return result;
+        Vector<Rental> rentals = _rentals;
+        return "Rental Record for " + getName() + "\n" 
+               + rentals.stream()
+                       .map(each -> "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n")
+                       .reduce((result, desc) -> result + desc)
+               + "Amount owed is " + String.valueOf(getTotalCharge()) + "\n"
+               + "You earned " + String.valueOf(getTotalFrequentRenterPoints()) + " frequent renter points";
     }
 
     private double getTotalCharge() {
