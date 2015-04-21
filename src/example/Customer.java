@@ -1,6 +1,7 @@
 package example;
 
 import java.util.*;
+import java8.util.stream.StreamSupport;
 
 public class Customer {
     private String _name;
@@ -20,7 +21,7 @@ public class Customer {
 
     public String statement() {
         return "Rental Record for " + getName() + "\n" 
-               + _rentals.stream()
+               + StreamSupport.stream(_rentals)
                        .map(each -> "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n")
                        .reduce((result, desc) -> result + desc)
                + "Amount owed is " + String.valueOf(getTotalCharge()) + "\n"
@@ -28,13 +29,13 @@ public class Customer {
     }
 
     private double getTotalCharge() {
-        return _rentals.stream()
-              .mapToDouble(Rental::getCharge)
-              .sum();
+        return StreamSupport.stream(_rentals)
+                  .mapToDouble(Rental::getCharge)
+                  .sum();
     }
     
     private int getTotalFrequentRenterPoints() {
-        return _rentals.stream()
+        return StreamSupport.stream(_rentals)
                 .mapToInt(Rental::getFrequentRenterPoints)
                 .sum();
     }
