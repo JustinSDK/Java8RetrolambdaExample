@@ -4,14 +4,14 @@ import java.util.*;
 
 public class Customer {
     private String _name;
-    private Vector _rentals = new Vector();
+    private List<Rental> _rentals = new ArrayList<>();
 
     public Customer(String name) {
         _name = name;
     }
   
     public void addRental(Rental arg) {
-        _rentals.addElement(arg);
+        _rentals.add(arg);
     }
 
     public String getName() {
@@ -19,9 +19,8 @@ public class Customer {
     }
 
     public String statement() {
-        Vector<Rental> rentals = _rentals;
         return "Rental Record for " + getName() + "\n" 
-               + rentals.stream()
+               + _rentals.stream()
                        .map(each -> "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n")
                        .reduce((result, desc) -> result + desc)
                + "Amount owed is " + String.valueOf(getTotalCharge()) + "\n"
@@ -29,15 +28,13 @@ public class Customer {
     }
 
     private double getTotalCharge() {
-        Vector<Rental> rentals = _rentals;
-        return rentals.stream()
+        return _rentals.stream()
               .mapToDouble(Rental::getCharge)
               .sum();
     }
     
     private int getTotalFrequentRenterPoints() {
-        Vector<Rental> rentals = _rentals;
-        return rentals.stream()
+        return _rentals.stream()
                 .mapToInt(Rental::getFrequentRenterPoints)
                 .sum();
     }
