@@ -1,0 +1,33 @@
+buildscript {
+  repositories {
+     mavenCentral()
+  }
+
+  dependencies {
+     classpath 'me.tatarka:gradle-retrolambda:3.0.1'
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin:'application'
+mainClassName = "cc.openhome.Hello"
+
+dependencies {
+   compile 'net.sourceforge.streamsupport:streamsupport:1.2'
+   testCompile 'junit:junit:4.+'
+}
+
+
+retrolambda {
+  jdk System.getenv("JAVA8_HOME")
+  oldJdk System.getenv("JAVA7_HOME")
+  javaVersion JavaVersion.VERSION_1_7
+  defaultMethods false
+  incremental true
+}
+
